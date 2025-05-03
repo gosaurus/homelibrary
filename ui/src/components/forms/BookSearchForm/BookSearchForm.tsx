@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { bookSearchParameters } from "../../../models/bookModels";
 import { openLibrarySearchAPI } from "../../../utils/apiClients";
+import { BookSearchResultsTable } from "../BookSearchResultsTable/BookSearchResultsTable";
 
 function BookSearchForm() {
 	const [formData, setFormData] = useState<bookSearchParameters>({
@@ -11,6 +12,8 @@ function BookSearchForm() {
     language: ""
     });
 	
+  const [responseData, setResponseData] = useState();
+
 	const [error, setError] = useState("");
 
 	const handleChange = (
@@ -26,6 +29,7 @@ function BookSearchForm() {
 		event.preventDefault()
 		try {
 			const response = await openLibrarySearchAPI(formData);
+      setResponseData(response);
 		}
 		catch (error: unknown
 		) {
@@ -34,7 +38,7 @@ function BookSearchForm() {
 				`${error.message}`
 			)
 			else 
-				setError("An error has occurred. Please contact the administrator.");
+				setError("An error has occurred. Contact the administrator.");
 		}
 	};
 
@@ -87,8 +91,9 @@ function BookSearchForm() {
 					</div>
 					<button type="submit">Search</button>
 				</form>
+        {error.length > 0 && (<div>{error}</div>)}
+        {responseData && <BookSearchResultsTable responseProps={responseData}/>}
 			</div>
-			{error.length > 0 && (<div>{error}</div>)}
 		</>
 	)
 
