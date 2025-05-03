@@ -20,6 +20,7 @@ function BookSearchForm() {
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const { name, value } = event.target;
+    console.log(`Name: ${name}, Value: ${value}`);
 		setFormData({...formData, [name]: value})
 	};
 
@@ -67,32 +68,61 @@ function BookSearchForm() {
 					</div>
 					<div className="field">
 						<label htmlFor="author-name">
-							Search by keyword:
+							Search by author:
 						</label>
-						<input type="text" name="author-name" value={formData.authorName}></input>
+						<input
+              type="text"
+              name="authorName"
+              value={formData.authorName}
+              onChange={handleChange}
+            >
+            </input>
 					</div>
 					<div className="field">
 						<label htmlFor="title">
-							Search by keyword:
+							Search by title:
 						</label>
-						<input type="text" name="title" value={formData.title}></input>
+						<input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+            >
+            </input>
 					</div>
 					<div className="field">
 						<label htmlFor="isbn">
-							Search by keyword:
+							Search by ISBN:
 						</label>
-						<input type="text" name="isbn" value={formData.isbn}></input>
+						<input
+              type="text"
+              name="isbn"
+              value={formData.isbn}
+              onChange={handleChange}
+            >
+            </input>
 					</div>
 					<div className="field">
 						<label htmlFor="language">
-							Search by keyword:
+							Search by language:
 						</label>
-						<input type="text" name="language" value={formData.language}></input>
+						<input
+              type="text"
+              name="language"
+              value={formData.language}
+              onChange={handleChange}
+            >
+            </input>
 					</div>
 					<button type="submit">Search</button>
 				</form>
         {error.length > 0 && (<div>{error}</div>)}
-        {responseData && <BookSearchResultsTable responseProps={responseData}/>}
+        {responseData &&
+          <BookSearchResultsTable
+            responseProps={responseData}
+            queryProps={formData} 
+          />
+        }
 			</div>
 		</>
 	)

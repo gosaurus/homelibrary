@@ -4,21 +4,28 @@ export const openLibrarySearchAPI = async (
 ) => {
   const queryParameters = new URLSearchParams();
 
-  if (formData.keywords.length > 0) {
-    queryParameters.append("q", formData.keywords)
-  }
+//   if (formData.keywords.length > 0) {
+//     queryParameters.append("q", formData.keywords)
+//   }
+  const regex = /\s/g;
 
   if (formData.authorName.length > 0) {
-    queryParameters.append("author", formData.keywords)
+    const newAuthorString = formData.authorName.replace(regex, "+")
+    queryParameters.append("author", newAuthorString);
   }
+
+  // if (formData.title.length > 0) {
+  //   queryParameters.append("title", formData.keywords)
+  // }
 
   console.log(`Query param = ${queryParameters.toString()}`)
 
   const response = await fetch(
-    `${import.meta.env.VITE_OPEN_LIBRARY_SEARCH_API}?${queryParameters.toString()}`
+    `${import.meta.env.VITE_OPEN_LIBRARY_SEARCH_API}?${queryParameters.toString()}&sort=new`
   );
 
   if (!response.ok) {
+    console.log(`Error: ${response}`)
     throw new Error(`HTTP error. Status: ${response.status}`);
   }
 
