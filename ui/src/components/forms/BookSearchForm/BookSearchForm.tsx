@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { bookSearchParameters } from "../../../models/bookModels";
 import { openLibrarySearchAPI } from "../../../utils/apiClients";
-import { BookSearchResultsTable } from "../BookSearchResultsTable/BookSearchResultsTable";
+import { BookSearchResults} from "../BookSearchResults/BookSearchResults";
+import { RotatingLines } from "react-loader-spinner";
+import "./BookSearchForm.scss";
 
 function BookSearchForm() {
 	const [formData, setFormData] = useState<bookSearchParameters>({
@@ -13,8 +15,8 @@ function BookSearchForm() {
     });
 	
   const [responseData, setResponseData] = useState();
-
 	const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
 
 	const handleChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -27,12 +29,13 @@ function BookSearchForm() {
 	const handleSubmit = async (
 		event: React.FormEvent
 	): Promise<void> => {
-		event.preventDefault()
+		event.preventDefault();
+    setLoading(true);
 		try {
 			const response = await openLibrarySearchAPI(formData);
       setResponseData(response);
-		}
-		catch (error: unknown
+      setError("");
+		} catch (error: unknown
 		) {
 			if (error instanceof Error)
 			setError(
@@ -40,9 +43,16 @@ function BookSearchForm() {
 			)
 			else 
 				setError("An error has occurred. Contact the administrator.");
-		}
+		} finally {
+      setLoading(false);
+    }
 	};
 
+  const noQueryString = "No search parameters given"
+  const queryDisplay = Object
+    .entries(formData)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join(", ");
 
 	return (
 		<>
@@ -116,13 +126,23 @@ function BookSearchForm() {
 					</div>
 					<button type="submit">Search</button>
 				</form>
-        {error.length > 0 && (<div>{error}</div>)}
-        {responseData &&
-          (<BookSearchResultsTable
-            responseProps={responseData}
-            queryProps={formData} 
-          />)
-        }
+        <div className="results-wrapper">
+          {loading && 
+            (<RotatingLines 
+              visible={true}
+              width="50"
+            />)
+          }
+          {error.length > 0 && (<p>{error}</p>)}
+          {(responseData && <p>Results for parameters: {queryDisplay}</p>) ||
+            (responseData && noQueryString)}
+          {responseData &&
+            (<BookSearchResults
+              responseProps={responseData}
+              queryProps={formData} 
+            />)
+          }
+        </div>
 			</div>
 		</>
 	)

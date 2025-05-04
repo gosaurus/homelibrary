@@ -1,0 +1,13 @@
+@use "@/styles/constants";
+
+.result {
+    border: 1px solid $border-color-main;
+}
+
+h3.resultTitleHeader {
+    text-align: left;
+}
+
+.resultDetail {
+    text-align: left;
+}

@@ -1,17 +1,20 @@
-import { bookSearchParameters } from "../models/bookModels"
+import { bookSearchParameters } from "../models/bookModels";
+import { keyToQuery } from "./queryFilter";
+
 export const openLibrarySearchAPI = async (
   formData: bookSearchParameters,
 ) => {
   const queryParameters = new URLSearchParams();
 
-//   if (formData.keywords.length > 0) {
-//     queryParameters.append("q", formData.keywords)
-//   }
   const regex = /\s/g;
-
+  
+  if (formData.keywords.length > 0) {
+    const tokenToAppend = keyToQuery(regex, formData.keywords);
+    queryParameters.append("q", tokenToAppend);
+  }
   if (formData.authorName.length > 0) {
-    const newAuthorString = formData.authorName.replace(regex, "+")
-    queryParameters.append("author", newAuthorString);
+    const tokenToAppend = keyToQuery(regex, formData.authorName);
+    queryParameters.append("author", tokenToAppend);
   }
 
   // if (formData.title.length > 0) {

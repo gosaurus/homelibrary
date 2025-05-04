@@ -1,0 +1,6 @@
+$border-color-main: grey;
+
+@mixin button($color) {
+    background-color: $color;
+    cursor: pointer;
+}
