@@ -118,10 +118,10 @@ function BookSearchForm() {
 				</form>
         {error.length > 0 && (<div>{error}</div>)}
         {responseData &&
-          <BookSearchResultsTable
+          (<BookSearchResultsTable
             responseProps={responseData}
             queryProps={formData} 
-          />
+          />)
         }
 			</div>
 		</>
