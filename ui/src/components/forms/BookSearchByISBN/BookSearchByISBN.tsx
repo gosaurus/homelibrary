@@ -4,7 +4,6 @@ import { bookSearchParameters } from "../../../models/bookModels";
 import { openLibrarySearchAPI } from "../../../utils/apiClients";
 import { BookSearchResults} from "../BookSearchResults/BookSearchResults";
 import { RotatingLines } from "react-loader-spinner";
-import "./BookSearchForm.scss";
 
 function BookSearchByISBN() {
 	const [formData, setFormData] = useState<bookSearchParameters>({
@@ -101,4 +100,4 @@ function BookSearchByISBN() {
 
 }
 
-export default BookSearchForm;
+export default BookSearchByISBN;
