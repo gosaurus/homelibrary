@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { bookSearchParameters } from "../../../models/bookModels";
-import { openLibrarySearchAPI } from "../../../utils/apiClients";
+import { openLibrarySearchISBNAPI } from "../../../utils/apiClients";
 import { BookSearchResults} from "../BookSearchResults/BookSearchResults";
 import { RotatingLines } from "react-loader-spinner";
 
@@ -31,8 +31,9 @@ function BookSearchByISBN() {
 	): Promise<void> => {
 		event.preventDefault();
     setLoading(true);
+    // create function to valid ISBN - in utils
 		try {
-			const response = await openLibrarySearchAPI(formData);
+			const response = await openLibrarySearchISBNAPI(formData.isbn);
       setResponseData(response);
       setError("");
 		} catch (error: unknown
@@ -57,7 +58,6 @@ function BookSearchByISBN() {
 	return (
 		<>
 			<div className="book-search-form-container">
-				<h2>Book Search Form</h2>
 				<p>
           ISBNs are unique numbers used to identify books.
           Input ISBNs with 10 or 13 characters below to search.
@@ -72,6 +72,8 @@ function BookSearchByISBN() {
               name="isbn"
               value={formData.isbn}
               onChange={handleChange}
+              min={10}
+              max={13}
             >
             </input>
 					</div>
