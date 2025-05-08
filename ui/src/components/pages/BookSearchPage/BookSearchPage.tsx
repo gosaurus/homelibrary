@@ -1,6 +1,5 @@
 import { useState } from "react";
 import BookSearchForm from "../../forms/BookSearchForm/BookSearchForm";
-import { bookSearchParameters } from "../../../models/bookModels";
 import BookSearchByISBN from "../../forms/BookSearchByISBN/BookSearchByISBN";
 import { BookSearchFormSelection } from "../../forms/BookSearchFormSelection/BookSearchFormSelection";
 
@@ -26,13 +25,13 @@ export const BookSearchPage = () => {
 
   return (
     <div>
+      <h2>Book Search Form</h2>
       {formSelectionInstructions()}
       <BookSearchFormSelection 
         radioValue={radioValue} 
         onChangeFormSelection={handleFormSelection}
       />
       {(radioValue === "keyword" || radioValue === "title") && <BookSearchForm />}
-      {radioValue === "author" && <p>Author search form</p>}
       {radioValue === "isbn" && <BookSearchByISBN />}
 
 

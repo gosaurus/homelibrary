@@ -4,6 +4,7 @@ import { bookSearchParameters } from "../../../models/searchParameterModels";
 import { openLibrarySearchISBNAPI } from "../../../utils/apiClients";
 import { ISBNResult } from "../ISBNResult/ISBNResult";
 import { RotatingLines } from "react-loader-spinner";
+import { isValidISBN } from "../../../utils/formValidation";
 
 function BookSearchByISBN() {
 	const [formData, setFormData] = useState<bookSearchParameters>({
@@ -20,17 +21,17 @@ function BookSearchByISBN() {
 	const handleChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const { name, value } = event.target;
+    const { name, value } = event.target;
     console.log(`Name: ${name}, Value: ${value}`);
 		setFormData({...formData, [name]: value})
 	};
+
 
 	const handleSubmit = async (
 		event: React.FormEvent
 	): Promise<void> => {
 		event.preventDefault();
     setLoading(true);
-    // create function to valid ISBN - in utils
 		try {
 			const response = await openLibrarySearchISBNAPI(formData.isbn);
       setResponseData(response);
@@ -71,8 +72,8 @@ function BookSearchByISBN() {
               name="isbn"
               value={formData.isbn}
               onChange={handleChange}
-              min={10}
-              max={13}
+              minLength={10}
+              maxLength={13}
             >
             </input>
 					</div>
