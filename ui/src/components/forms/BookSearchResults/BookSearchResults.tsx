@@ -1,7 +1,15 @@
-import { ResultsProps } from "../../../models/apiModels";
 import { openLibraryDocument } from "../../../models/apiModels";
+import { bookSearchParameters } from "../../../models/searchParameterModels";
 import "./BookSearchResults.scss";
 
+export interface ResultsProps {
+  queryProps: bookSearchParameters,
+  responseProps: {
+    q: string,
+    num_found: number,
+    docs: openLibraryDocument[],
+  }
+}
 export function BookSearchResults({ responseProps }: ResultsProps) {
 
   const docListItem = responseProps.docs.map((doc: openLibraryDocument, index: number) => 

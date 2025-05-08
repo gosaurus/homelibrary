@@ -1,4 +1,4 @@
-import { bookSearchParameters } from "../models/bookModels";
+import { bookSearchParameters } from "../models/searchParameterModels";
 import { keyToQuery } from "./queryFilter";
 
 export const openLibrarySearchAPI = async (
@@ -21,9 +21,6 @@ export const openLibrarySearchAPI = async (
     queryParameters.append("title", tokenToAppend);
   }
 
-
-  console.log(`Query param = ${queryParameters.toString()}`)
-
   const response = await fetch(
     `${import.meta.env.VITE_OPEN_LIBRARY_SEARCH_API}?${queryParameters.toString()}&sort=new`
   );
@@ -40,9 +37,8 @@ export const openLibrarySearchAPI = async (
 export const openLibrarySearchISBNAPI= async (
   isbn: string
 ) => {
-  console.log(`ISBN = ${isbn}`);
   const response = await fetch(
-    import.meta.env.VITE_OPEN_LIBRARY_SEARCH_ISBN_API + "/" + isbn
+    import.meta.env.VITE_OPEN_LIBRARY_SEARCH_ISBN_API + "/" + isbn + ".json"
   );
 
   if (!response.ok) {

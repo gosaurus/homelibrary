@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { bookSearchParameters } from "../../../models/bookModels";
+import { bookSearchParameters } from "../../../models/searchParameterModels";
 import { openLibrarySearchAPI } from "../../../utils/apiClients";
 import { BookSearchResults} from "../BookSearchResults/BookSearchResults";
 import { RotatingLines } from "react-loader-spinner";
@@ -11,7 +11,6 @@ function BookSearchForm() {
     authorName: "",
     title: "",
     isbn: "",
-    language: ""
     });
 	
   const [responseData, setResponseData] = useState();
@@ -59,7 +58,7 @@ function BookSearchForm() {
 			<div className="book-search-form-container">
 				<h2>Book Search Form</h2>
 				<p>
-					Input your search terms in the form below.
+					Input your search terms in the form below. 
 					At least one search field needs to be completed before you can submit
 				</p>
 				<form onSubmit={handleSubmit}>
@@ -96,30 +95,6 @@ function BookSearchForm() {
               type="text"
               name="title"
               value={formData.title}
-              onChange={handleChange}
-            >
-            </input>
-					</div>
-					<div className="field">
-						<label htmlFor="isbn">
-							Search by ISBN:
-						</label>
-						<input
-              type="text"
-              name="isbn"
-              value={formData.isbn}
-              onChange={handleChange}
-            >
-            </input>
-					</div>
-					<div className="field">
-						<label htmlFor="language">
-							Search by language:
-						</label>
-						<input
-              type="text"
-              name="language"
-              value={formData.language}
               onChange={handleChange}
             >
             </input>

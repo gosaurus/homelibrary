@@ -1,4 +1,4 @@
-import { bookSearchParameters } from "../models/bookModels";
+import { bookSearchParameters } from "../models/searchParameterModels";
 
 export const filteredQueries = (searchParameters: bookSearchParameters) => {
   return Object.entries(searchParameters).filter(

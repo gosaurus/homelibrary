@@ -1,13 +1,3 @@
-import { bookSearchParameters } from "./bookModels";
-export interface ResultsProps {
-  queryProps: bookSearchParameters,
-  responseProps: {
-    q: string,
-    num_found: number,
-    docs: openLibraryDocument[],
-  }
-}
-
 export interface openLibraryDocument {
     author_name: string[],
     key: string,
@@ -20,4 +10,30 @@ export interface openLibraryDocument {
 export interface openLibraryCover {
     olid_key: string,
     size: "S" | "M" | "L",
+}
+
+export interface openLibraryBookObject {
+  title: string,
+  authors: openLibraryInterface[],
+  contributions: string[],
+  publish_date: string,
+  publishers: string[],
+  languages: openLibraryInterface[]
+  key: string,
+  number_of_pages: number,
+  works: openLibraryInterface[],
+  isbn_10: string[],
+  isbn_13: string[]
+}
+
+export interface openLibraryInterface {
+  key: string,
+}
+
+export interface openLibraryLanguages {
+  key: string,
+}
+
+export interface openLibraryWork {
+  key: string,
 }

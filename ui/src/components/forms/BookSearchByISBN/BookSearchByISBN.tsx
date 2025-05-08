@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import { bookSearchParameters } from "../../../models/bookModels";
+import { bookSearchParameters } from "../../../models/searchParameterModels";
 import { openLibrarySearchISBNAPI } from "../../../utils/apiClients";
-import { BookSearchResults} from "../BookSearchResults/BookSearchResults";
+import { ISBNResult } from "../ISBNResult/ISBNResult";
 import { RotatingLines } from "react-loader-spinner";
 
 function BookSearchByISBN() {
@@ -11,7 +11,6 @@ function BookSearchByISBN() {
     authorName: "",
     title: "",
     isbn: "",
-    language: ""
     });
 	
   const [responseData, setResponseData] = useState();
@@ -90,9 +89,8 @@ function BookSearchByISBN() {
           {(responseData && <p>Results for parameters: {queryDisplay}</p>) ||
             (responseData && noQueryString)}
           {responseData &&
-            (<BookSearchResults
-              responseProps={responseData}
-              queryProps={formData} 
+            (<ISBNResult
+              responseObject={responseData}
             />)
           }
         </div>
