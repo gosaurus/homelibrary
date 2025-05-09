@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { bookSearchParameters } from "../../../models/searchParameterModels";
+import { bookSearchParameters, isbnValidationModel } from "../../../models/formModels";
 import { openLibrarySearchISBNAPI } from "../../../utils/apiClients";
 import { ISBNResult } from "../ISBNResult/ISBNResult";
 import { RotatingLines } from "react-loader-spinner";
@@ -18,14 +18,30 @@ function BookSearchByISBN() {
 	const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [formErrors, setFormErrors] = useState<isbnValidationModel>({
+    numberError: "",
+    lengthError: "",
+    prefixError: "",
+  });
+
+  const validateForm = ({formErrors} : isValidISBN) => {
+    let valid = true;
+    Object.values(formErrors).forEach((errorValue:any) => {
+      if (errorValue.length > 0) 
+        valid = false;
+    });
+    return valid;
+    }
+
 	const handleChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
     const { name, value } = event.target;
     console.log(`Name: ${name}, Value: ${value}`);
-		setFormData({...formData, [name]: value})
+    const validate = isValidISBN(formData.isbn);
+		setFormData({...formData, [name]: value});
+    if 
 	};
-
 
 	const handleSubmit = async (
 		event: React.FormEvent

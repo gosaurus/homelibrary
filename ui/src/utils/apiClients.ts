@@ -1,4 +1,4 @@
-import { bookSearchParameters } from "../models/searchParameterModels";
+import { bookSearchParameters } from "../models/formModels";
 import { keyToQuery } from "./queryFilter";
 
 export const openLibrarySearchAPI = async (

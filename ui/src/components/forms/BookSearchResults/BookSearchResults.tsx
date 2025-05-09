@@ -1,5 +1,5 @@
 import { openLibraryDocument } from "../../../models/apiModels";
-import { bookSearchParameters } from "../../../models/searchParameterModels";
+import { bookSearchParameters } from "../../../models/formModels";
 import "./BookSearchResults.scss";
 
 export interface ResultsProps {

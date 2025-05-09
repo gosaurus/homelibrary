@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { bookSearchParameters } from "../../../models/searchParameterModels";
+import { bookSearchParameters } from "../../../models/formModels";
 import { openLibrarySearchAPI } from "../../../utils/apiClients";
 import { BookSearchResults} from "../BookSearchResults/BookSearchResults";
 import { RotatingLines } from "react-loader-spinner";
