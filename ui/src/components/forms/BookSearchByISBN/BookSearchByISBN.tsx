@@ -4,7 +4,7 @@ import { bookSearchParameters, isbnValidationModel } from "../../../models/formM
 import { openLibrarySearchISBNAPI } from "../../../utils/apiClients";
 import { ISBNResult } from "../ISBNResult/ISBNResult";
 import { RotatingLines } from "react-loader-spinner";
-import { isValidISBN } from "../../../utils/formValidation";
+import { isValidISBNPrefix, isCorrectLength } from "../../../utils/formValidation";
 
 function BookSearchByISBN() {
 	const [formData, setFormData] = useState<bookSearchParameters>({
@@ -14,9 +14,10 @@ function BookSearchByISBN() {
     isbn: "",
     });
 	
-  const [responseData, setResponseData] = useState();
+  const [responseData, setResponseData] = useState(null);
 	const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [formErrorMessage, setFormErrorMessage] = useState("")
 
   const [formErrors, setFormErrors] = useState<isbnValidationModel>({
     numberError: "",
@@ -24,7 +25,7 @@ function BookSearchByISBN() {
     prefixError: "",
   });
 
-  const validateForm = ({formErrors} : isValidISBN) => {
+  const validateForm = ({formErrors} : {formErrors: isbnValidationModel}) => {
     let valid = true;
     Object.values(formErrors).forEach((errorValue:any) => {
       if (errorValue.length > 0) 
@@ -38,30 +39,48 @@ function BookSearchByISBN() {
 	) => {
     const { name, value } = event.target;
     console.log(`Name: ${name}, Value: ${value}`);
-    const validate = isValidISBN(formData.isbn);
-		setFormData({...formData, [name]: value});
-    if 
-	};
 
+    if (isNaN(Number(value))) {
+      setFormErrors({...formErrors, numberError: "Invalid input. ISBNs must be 10 or 13 numerical characters only."})
+    }
+    if (!isCorrectLength(value)) {
+      setFormErrors({...formErrors, lengthError: `Invalid ISBN length ${value.length}. ISBNs must be 10 or 13 numerical characters long.`})
+    }
+    if (!isValidISBNPrefix) {
+      setFormErrors({...formErrors, prefixError: "Invalid ISBN-13. ISBN-13s must be prefixed with '978' or '979'"})
+    }
+    console.log(`NAN error: ${formErrors.numberError}`)
+    console.log(`Length error: ${formErrors.lengthError}`)
+    console.log(`Prefix error: ${formErrors.prefixError}`)
+    setFormData({...formData, [name]: value});
+	};
+  
 	const handleSubmit = async (
-		event: React.FormEvent
+    event: React.FormEvent
 	): Promise<void> => {
-		event.preventDefault();
-    setLoading(true);
-		try {
-			const response = await openLibrarySearchISBNAPI(formData.isbn);
-      setResponseData(response);
-      setError("");
-		} catch (error: unknown
-		) {
-			if (error instanceof Error)
-			setError(
-				`${error.message}`
-			)
-			else 
-				setError("An error has occurred. Contact the administrator.");
-		} finally {
-      setLoading(false);
+    event.preventDefault();
+    setResponseData(null);
+    
+    if (!validateForm({formErrors})) {
+      setFormErrorMessage("Invalid form input.")
+    } 
+    else {
+      setLoading(true);
+      try {
+        const response = await openLibrarySearchISBNAPI(formData.isbn);
+        setResponseData(response);
+        setError("");
+      } catch (error: unknown
+      ) {
+        if (error instanceof Error)
+        setError(
+          `${error.message}`
+        )
+        else 
+          setError("An error has occurred. Contact the administrator.");
+      } finally {
+        setLoading(false);
+      }
     }
 	};
 
@@ -70,7 +89,7 @@ function BookSearchByISBN() {
     .entries(formData)
     .map(([key, value]) => `${key}: ${value}`)
     .join(", ");
-
+  
 	return (
 		<>
 			<div className="book-search-form-container">
@@ -92,6 +111,11 @@ function BookSearchByISBN() {
               maxLength={13}
             >
             </input>
+            {formErrorMessage && 
+              <ul>
+                {Object.entries(formErrors).map(([_,value]) => <li>{value}</li>)}
+              </ul>
+            }
 					</div>
 					<button type="submit">Search</button>
 				</form>

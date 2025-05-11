@@ -1,5 +1,5 @@
 export function isCorrectLength(isbnString: string) : boolean {
-  if (isbnString.length !== 13 || isbnString.length !== 10 )
+  if (isbnString.length !== 13 && isbnString.length !== 10 )
     return false;
   return true;
 };
