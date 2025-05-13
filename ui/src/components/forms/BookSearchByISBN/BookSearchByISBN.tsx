@@ -37,21 +37,24 @@ function BookSearchByISBN() {
 	const handleChange = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
+    setError("");
+    setLoading(false);
+    setResponseData(null);
     const { name, value } = event.target;
     console.log(`Name: ${name}, Value: ${value}`);
 
     if (isNaN(Number(value))) {
-      setFormErrors({...formErrors, numberError: "Invalid input. ISBNs must be 10 or 13 numerical characters only."})
+      setFormErrors({...formErrors, numberError: "Invalid input. ISBNs must be 10 or 13 numerical characters only."});
+      console.log("Set isNan error");
     }
     if (!isCorrectLength(value)) {
-      setFormErrors({...formErrors, lengthError: `Invalid ISBN length ${value.length}. ISBNs must be 10 or 13 numerical characters long.`})
+      setFormErrors({...formErrors, lengthError: `Invalid ISBN length ${value.length}. ISBNs must be 10 or 13 numerical characters long.`});
+      console.log("Set incorrect length error");
     }
     if (!isValidISBNPrefix) {
       setFormErrors({...formErrors, prefixError: "Invalid ISBN-13. ISBN-13s must be prefixed with '978' or '979'"})
+      console.log("Set invalid isbn error");
     }
-    console.log(`NAN error: ${formErrors.numberError}`)
-    console.log(`Length error: ${formErrors.lengthError}`)
-    console.log(`Prefix error: ${formErrors.prefixError}`)
     setFormData({...formData, [name]: value});
 	};
   
@@ -113,7 +116,7 @@ function BookSearchByISBN() {
             </input>
             {formErrorMessage && 
               <ul>
-                {Object.entries(formErrors).map(([_,value]) => <li>{value}</li>)}
+                {Object.entries(formErrors).map(([key,value]) => <li key={key}>{value}</li>)}
               </ul>
             }
 					</div>

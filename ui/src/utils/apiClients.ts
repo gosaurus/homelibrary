@@ -24,10 +24,13 @@ export const openLibrarySearchAPI = async (
   const response = await fetch(
     `${import.meta.env.VITE_OPEN_LIBRARY_SEARCH_API}?${queryParameters.toString()}&sort=new`
   );
-
-  if (!response.ok) {
+  console.log(`response.status = ${response.status}`)
+  if (response.status === 404) {
     console.log(`Error: ${response}`)
-    throw new Error(`HTTP error. Status: ${response.status}`);
+    throw new Error(`HTTP error ${response.status}. No matching ISBN found.`);
+  }
+  if (!response.ok && response.status != 404) {
+    throw new Error(`HTTP error: ${response.status}`)
   }
 
   const data = await response.json();
