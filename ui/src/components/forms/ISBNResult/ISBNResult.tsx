@@ -1,7 +1,10 @@
 import { openLibraryBookObject, openLibraryInterface } from "../../../models/apiModels";
 import { openLibraryDocument } from "../../../models/apiModels";
 
-export function ISBNResult ( { responseObject }: { responseObject: openLibraryBookObject }) {
+export function ISBNResult ( 
+  { responseObject }: { responseObject: openLibraryBookObject },
+  { availableISBN }: { availableISBN: string }
+) {
 
   const list = (listValues: openLibraryInterface[]) =>  {
     console.log(`listValues: ${listValues}`);
@@ -36,6 +39,8 @@ export function ISBNResult ( { responseObject }: { responseObject: openLibraryBo
     <>
       <div className="results-container">
         {bookItem}
+
+        <CoverResult responseIdentifier={availableISBN}/>
       </div>
     </>
   )

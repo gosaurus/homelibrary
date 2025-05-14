@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { bookSearchParameters, isbnValidationModel } from "../../../models/formModels";
 import { openLibrarySearchISBNAPI } from "../../../utils/apiClients";
 import { ISBNResult } from "../ISBNResult/ISBNResult";
@@ -18,6 +18,7 @@ function BookSearchByISBN() {
 	const [error, setError] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [formErrorMessage, setFormErrorMessage] = useState("")
+  const [availableISBN, setAvailableISBN] = useState(null);
 
   const [formErrors, setFormErrors] = useState<isbnValidationModel>({
     numberError: "",
@@ -92,6 +93,13 @@ function BookSearchByISBN() {
     .entries(formData)
     .map(([key, value]) => `${key}: ${value}`)
     .join(", ");
+
+  const errorDisplay = ({formErrors} : {formErrors: isbnValidationModel}) : ReactNode => {
+    const items = Object.entries(formErrors)
+      .filter(([_, value]) => value.length > 0)
+      .map(([k, value]) => <li key={k}>{value}</li>);
+      return (items.length > 0 ? <ul>{items}</ul> : null) 
+  };
   
 	return (
 		<>
@@ -115,10 +123,7 @@ function BookSearchByISBN() {
             >
             </input>
             {formErrorMessage && 
-              <ul>
-                {Object.entries(formErrors).map(([key,value]) => <li key={key}>{value}</li>)}
-              </ul>
-            }
+              errorDisplay({formErrors})}
 					</div>
 					<button type="submit">Search</button>
 				</form>
@@ -133,9 +138,10 @@ function BookSearchByISBN() {
           {(responseData && <p>Results for parameters: {queryDisplay}</p>) ||
             (responseData && noQueryString)}
           {responseData &&
-            (<ISBNResult
+            <ISBNResult
               responseObject={responseData}
-            />)
+              availableISBN={formData.isbn}
+            />
           }
         </div>
 			</div>

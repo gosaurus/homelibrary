@@ -7,9 +7,9 @@ export interface openLibraryDocument {
     language: string[]
 }
 
-export interface openLibraryCover {
-    olid_key: string,
-    size: "S" | "M" | "L",
+export interface openLibraryCoverObject {
+    olidIdentifier: string,
+    olidIdentifierType: "olid" | "isbn",
 }
 
 export interface openLibraryBookObject {
