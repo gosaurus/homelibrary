@@ -4,6 +4,7 @@ import { options } from "./apiHeader";
 import { openLibraryCoverObject } from "../models/apiModels";
 
 export const openLibrarySearchAPI = async (
+  options: { method: string, headers: Headers },
   formData: bookSearchParameters,
 ) => {
   const queryParameters = new URLSearchParams();
@@ -44,6 +45,7 @@ export const openLibrarySearchISBNAPI = async (
   const response = await fetch(
     import.meta.env.VITE_OPEN_LIBRARY_SEARCH_ISBN_API + "/" + isbn + ".json"
   );
+  console.log("Doing isbn request...");
   if (response.status === 404) {
     throw new Error(`Uh oh! No matching ISBN found.`);
   }
@@ -65,7 +67,7 @@ export const openLibraryCoverAPI = async (
       openLibraryCoverIdentifier.olidIdentifier + "-M.jpg",
     options
   );
-
+  console.log("Doing cover request...");
   if (response.status === 404) {
     throw new Error(`Uh oh! No matching cover found.`);
   }
@@ -73,4 +75,6 @@ export const openLibraryCoverAPI = async (
     throw new Error(`HTTP error. Status: ${response.status}`);
   };
 
+  const data = await response.json();
+  return data;
 }

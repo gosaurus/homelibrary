@@ -9,7 +9,7 @@ export interface openLibraryDocument {
 
 export interface openLibraryCoverObject {
     olidIdentifier: string,
-    olidIdentifierType: "olid" | "isbn",
+    olidIdentifierType: "olid" | "isbn" | null,
 }
 
 export interface openLibraryBookObject {

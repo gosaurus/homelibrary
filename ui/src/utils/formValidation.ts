@@ -5,7 +5,11 @@ export function isCorrectLength(isbnString: string) : boolean {
 };
 
 export function isValidISBNPrefix(isbnString: string) : boolean {
-  if (isbnString.slice(0,2) !== "978" || isbnString.slice(0,2) !== "979") 
+  const prefix = isbnString.slice(0,3);
+  console.log(prefix);
+  if (prefix !== "978" && prefix !== "979") {
+    console.log(`ISBN Prefix check: ${isbnString}`);
     return false;
+  }
   return true;
 };

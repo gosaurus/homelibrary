@@ -1,10 +1,15 @@
 import { openLibraryBookObject, openLibraryInterface } from "../../../models/apiModels";
 import { openLibraryDocument } from "../../../models/apiModels";
+import { CoverResult } from "../CoverResult/CoverResult";
+
+
+export interface ISBNResultsProps {
+  responseObject: openLibraryBookObject,
+  availableISBN: string
+  }
 
 export function ISBNResult ( 
-  { responseObject }: { responseObject: openLibraryBookObject },
-  { availableISBN }: { availableISBN: string }
-) {
+{ responseObject, availableISBN }: ISBNResultsProps) {
 
   const list = (listValues: openLibraryInterface[]) =>  {
     console.log(`listValues: ${listValues}`);
@@ -31,7 +36,7 @@ export function ISBNResult (
         <p>Number of pages: {responseObject.number_of_pages}</p>
         <p>ISBN-10: {responseObject.isbn_10.join(", ")}</p>
         <p>ISBN-13: {responseObject.isbn_13.join(", ")}</p>
-      </div>   
+      </div>
     </div>
   )
   
@@ -40,7 +45,7 @@ export function ISBNResult (
       <div className="results-container">
         {bookItem}
 
-        <CoverResult responseIdentifier={availableISBN}/>
+        {/* <CoverResult coverIdentifier={availableISBN}/> */}
       </div>
     </>
   )
