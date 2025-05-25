@@ -8,14 +8,15 @@ export interface coverProps {
     olidIdentifierType: "isbn" | "olid" | null 
 }
 
-export function CoverResult ({ coverIdentifier } : { coverIdentifier: string } //could this be a util to return URL for images?
+export function CoverResult (
+  { coverPropObject } : { coverPropObject: coverProps} //could this be a util to return URL for images?
 ) {
 
+  //deconstruction coverPropObject & call the API
   const coverInfo: openLibraryCoverObject = {
     olidIdentifier: coverIdentifier,
     olidIdentifierType: Number(coverIdentifier) ? "isbn" : "olid"
   } 
-
 
   const coverIdentifierType = Number(coverIdentifier) ? "isbn" : "olid";
   

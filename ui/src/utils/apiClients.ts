@@ -63,18 +63,23 @@ export const openLibraryCoverAPI = async (
 ) => {
   const response = await fetch(
     import.meta.env.VITE_OPEN_LIBRARY_COVER_API + "/" +
-      openLibraryCoverIdentifier.olidIdentifierType + "/" +
-      openLibraryCoverIdentifier.olidIdentifier + "-M.jpg",
+    openLibraryCoverIdentifier.olidIdentifierType + "/" +
+    openLibraryCoverIdentifier.olidIdentifier + "-M.jpg" +
+    "?default=false" +
     options
   );
+  //GET https://covers.openlibrary.org/b/isbn/0553812173-L.jpg
   console.log("Doing cover request...");
   if (response.status === 404) {
     throw new Error(`Uh oh! No matching cover found.`);
   }
-  if (!response.ok && response.status !== 404) {
-    throw new Error(`HTTP error. Status: ${response.status}`);
-  };
+  // if ((!response.ok || response.status !== 302) && response.status !== 404) {
+  //   throw new Error(`HTTP error. Status: ${response.status}`);
+  // };
 
-  const data = await response.json();
-  return data;
+  const blobData = await response.blob();
+  // https://developer.mozilla.org/en-US/docs/Web/API/Response/blob
+  const objectUrl = URL.createObjectURL(blobData);
+  console.log(`objectUrl ${objectUrl}`);
+  return objectUrl;
 }
