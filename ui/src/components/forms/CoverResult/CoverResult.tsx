@@ -13,12 +13,6 @@ export function CoverResult (
 ) {
 
   //deconstruction coverPropObject & call the API
-  const coverInfo: openLibraryCoverObject = {
-    olidIdentifier: coverIdentifier,
-    olidIdentifierType: Number(coverIdentifier) ? "isbn" : "olid"
-  } 
-
-  const coverIdentifierType = Number(coverIdentifier) ? "isbn" : "olid";
   
   
   // todo! 
@@ -27,8 +21,8 @@ export function CoverResult (
     <>
     <div className="cover-image">
       <img src={import.meta.env.VITE_OPEN_LIBRARY_COVER_API + "/" +
-      coverInfo.olidIdentifierType + "/" +
-      coverInfo.olidIdentifier + "-M.jpg" + 
+      coverPropObject.olidIdentifierType + "/" +
+      coverPropObject.olidIdentifier + "-M.jpg" + 
       "?default=false"} />
     </div>
     {/* {loading && <p>Cover image loading</p>} */}

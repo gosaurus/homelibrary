@@ -45,7 +45,12 @@ export function ISBNResult (
       <div className="results-container">
         {bookItem}
 
-        <CoverResult coverIdentifier={availableISBN}/>
+        <CoverResult coverPropObject={
+          {
+            olidIdentifier: availableISBN,
+            olidIdentifierType: "isbn"
+          }
+        }/>
       </div>
     </>
   )
