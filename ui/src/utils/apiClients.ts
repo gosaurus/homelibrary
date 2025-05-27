@@ -1,10 +1,8 @@
 import { bookSearchParameters } from "../models/formModels";
 import { keyToQuery } from "./queryFilter";
-import { options } from "./apiHeader";
 import { openLibraryCoverObject } from "../models/apiModels";
 
 export const openLibrarySearchAPI = async (
-  options: { method: string, headers: Headers },
   formData: bookSearchParameters,
 ) => {
   const queryParameters = new URLSearchParams();
@@ -25,7 +23,7 @@ export const openLibrarySearchAPI = async (
   }
 
   const response = await fetch(
-    `${import.meta.env.VITE_OPEN_LIBRARY_SEARCH_API}?${queryParameters.toString()}&sort=new`
+    `${import.meta.env.VITE_OPEN_LIBRARY_SEARCH_API}?${queryParameters.toString()}&sort=new`, 
   );
   if (response.status === 404) {
     console.log(`Error: ${response}`)
@@ -43,7 +41,7 @@ export const openLibrarySearchISBNAPI = async (
   isbn: string
 ) => {
   const response = await fetch(
-    import.meta.env.VITE_OPEN_LIBRARY_SEARCH_ISBN_API + "/" + isbn + ".json"
+    import.meta.env.VITE_OPEN_LIBRARY_SEARCH_ISBN_API + "/" + isbn + ".json",
   );
   console.log("Doing isbn request...");
   if (response.status === 404) {
@@ -58,27 +56,21 @@ export const openLibrarySearchISBNAPI = async (
 };
 
 export const openLibraryCoverAPI = async (
-  options: { method: string, headers: Headers },
   openLibraryCoverIdentifier: openLibraryCoverObject
 ) => {
   const response = await fetch(
     import.meta.env.VITE_OPEN_LIBRARY_COVER_API + "/" +
     openLibraryCoverIdentifier.olidIdentifierType + "/" +
     openLibraryCoverIdentifier.olidIdentifier + "-M.jpg" +
-    "?default=false" +
-    options
+    "?default=false"
   );
   //GET https://covers.openlibrary.org/b/isbn/0553812173-L.jpg
   console.log("Doing cover request...");
   if (response.status === 404) {
     throw new Error(`Uh oh! No matching cover found.`);
   }
-  // if ((!response.ok || response.status !== 302) && response.status !== 404) {
-  //   throw new Error(`HTTP error. Status: ${response.status}`);
-  // };
 
   const blobData = await response.blob();
-  // https://developer.mozilla.org/en-US/docs/Web/API/Response/blob
   const objectUrl = URL.createObjectURL(blobData);
   console.log(`objectUrl ${objectUrl}`);
   return objectUrl;

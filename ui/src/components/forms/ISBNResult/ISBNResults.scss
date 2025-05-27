@@ -1,0 +1,17 @@
+@use "sass:color";
+@use "../../../styles/constants" as *;
+
+.results-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.result {
+    width: 70%;
+    padding: 24px;
+}
+
+.cover-image {
+    max-width: 30%;
+    margin: auto 0px;
+}

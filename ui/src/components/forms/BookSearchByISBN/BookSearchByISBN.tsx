@@ -77,7 +77,7 @@ function BookSearchByISBN() {
        ${formErrorsObject.lengthError}, Prefix error ${formErrorsObject.prefixError}, 
        non-number error ${formErrorsObject.numberError}`);
     const formIsInvalid = Object.values(formErrorsObject).some((errorValue) => errorValue.length > 0);
-    console.log(`Has Form Errors state is: ${formIsInvalid}`); //should show as true...
+    console.log(`Has Form Errors state is: ${formIsInvalid}`); 
 
     if (formIsInvalid) {
       setDisplayErrorObject(formErrorsObject);
@@ -97,7 +97,7 @@ function BookSearchByISBN() {
         `${error.message}`
       )
       else 
-        setAPIError("An error has occurred. Contact the administrator.");
+        setAPIError("An error has occurred. Please contact the administrator.");
     } finally {
       setLoading(false);
     }
@@ -146,10 +146,8 @@ function BookSearchByISBN() {
 				</form>
         <div className="results-wrapper">
           {loading && 
-            (<RotatingLines 
-              visible={true}
-              width="50"
-            />)
+            (<RotatingLines visible={true} width="50" />
+            )
           }
           {apiError.length > 0 && (<p>{apiError}</p>)}
           {(responseData && <p>Results for parameters: {queryDisplay}</p>) ||
