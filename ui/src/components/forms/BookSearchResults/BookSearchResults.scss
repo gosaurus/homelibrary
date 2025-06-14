@@ -1,8 +1,18 @@
 @use "sass:color";
 @use "../../../styles/constants" as *;
 
+.results-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 768px;
+    margin: auto;
+}
+
 .result {
     border: 1px solid $border-color-main;
+    max-width: 100%;
+    margin: auto;
 }
 
 h3.resultTitleHeader {
